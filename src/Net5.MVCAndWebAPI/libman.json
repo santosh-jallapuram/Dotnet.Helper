@@ -3,12 +3,35 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "select2@4.0.13",
-      "destination": "wwwroot/lib/select2/",
+      "library": "twitter-bootstrap@4.6.0",
+      "destination": "wwwroot/lib/bootstrap/",
       "files": [
-        "js/select2.min.js",
-        "css/select2.min.css"
+        "css/bootstrap.min.css.map",
+        "css/bootstrap.min.css",
+        // bundle has popper js. models wont work with just min.js.
+        "js/bootstrap.bundle.min.js.map",
+        "js/bootstrap.bundle.min.js"
       ]
+    },
+    {
+      "library": "jquery@3.6.0",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "jquery.min.js",
+        "jquery.min.map"
+      ]
+    },
+    {
+      "library": "jquery-validate@1.19.2",
+      "destination": "wwwroot/lib/jquery-validate/",
+      "files": [
+        "jquery.validate.min.js",
+        "additional-methods.min.js"
+      ]
+    },
+    {
+      "library": "jquery-validation-unobtrusive@3.2.12",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
     }
   ]
 }
