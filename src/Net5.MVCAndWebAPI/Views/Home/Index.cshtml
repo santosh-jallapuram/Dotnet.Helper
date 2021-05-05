@@ -1,0 +1,89 @@
+﻿@model Net5.MVCAndWebAPI.Models.HomeViewModel
+@using System.IO;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingConfigSection">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseConfigSection" aria-expanded="true" aria-controls="collapseConfigSection">
+                    Configuration Properties
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseConfigSection" class="collapse show" aria-labelledby="headingConfigSection" data-parent="#accordionExample">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="min-width:200px;">Type</th>
+                            <th>Key</th>
+                            <th style="max-width:100px;">Value</th>
+                            <th style="max-width:100px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.AppSettings)
+                        {
+                            <tr>
+                                <td>App Setting</td>
+                                <td><label>@item.Key</label></td>
+                                <td style="max-width:150px;"><label>@item.Value</label></td>
+                                <td>
+                                    <p>Copy</p>
+                                    @if (System.IO.Directory.Exists(item.Value))
+                                    {
+                                        <p>Verify Path</p>
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var item in Model.ConnectionStrings)
+                        {
+                            <tr>
+                                <td>Connection String</td>
+                                <td><label>@item.Key</label></td>
+                                <td style="max-width:150px;"><label>@item.Value</label></td>
+                                <td><p>Copy</p><p>Test Connection</p></td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    @*<div class="card">
+        <div class="card-header" id="headingTwo">
+        <h2 class="mb-0">
+        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Collapsible Group Item #2
+        </button>
+        </h2>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+        <div class="card-body">
+        Some placeholder content for the second accordion panel. This panel is hidden by default.
+        </div>
+        </div>
+        </div>
+        <div class="card">
+        <div class="card-header" id="headingThree">
+        <h2 class="mb-0">
+        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        Collapsible Group Item #3
+        </button>
+        </h2>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+        <div class="card-body">
+        And lastly, the placeholder content for the third and final accordion panel. This panel is hidden by default.
+        </div>
+        </div>
+        </div>*@
+</div>

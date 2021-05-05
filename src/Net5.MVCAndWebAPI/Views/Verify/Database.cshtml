@@ -1,0 +1,119 @@
+﻿@model Net5.MVCAndWebAPI.Models.DatabaseVerifyModel
+
+@{
+    ViewData["Title"] = "Database";
+}
+
+<h4>Verify database connection</h4>
+<hr />
+<div class="row">
+   
+    <div class="col-md-3">
+        <span class="text-primary">Choose from app settings.</span>
+
+        <form asp-action="Database" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ConnenctionString" class="control-label"></label>
+                <select asp-items="@ViewBag.ConnectionStrings" asp-for="ConnenctionString" class="form-control">
+                    <option>Select connection string</option>
+                </select>
+                <span asp-validation-for="ConnenctionString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClientId" class="control-label"></label>
+                <select asp-items="@ViewBag.AppSettings" asp-for="ClientId" class="form-control">
+                    <option>Select app id or client id (if applicable)</option>
+                </select>
+                <span asp-validation-for="ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenantId" class="control-label"></label>
+                <select asp-items="@ViewBag.AppSettings" asp-for="TenantId" class="form-control">
+                    <option>Select tenant id (if applicable)</option>
+                </select>
+                <span asp-validation-for="TenantId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppSecret" class="control-label"></label>
+                <select asp-items="@ViewBag.AppSettings" asp-for="AppSecret" class="form-control">
+                    <option>Select app secret (if applicable)</option>
+                </select>
+                <span asp-validation-for="AppSecret" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="ResourceName" class="control-label"></label>
+                <input asp-for="ResourceName" class="form-control" />
+                <span asp-validation-for="ResourceName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Verify" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-4 border-left">
+        <span class="text-primary">Enter values on your own.</span>
+
+        <form asp-action="VerifyDatabase" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ConnenctionString" class="control-label"></label>
+                <input asp-for="ConnenctionString" class="form-control" />
+                <span asp-validation-for="ConnenctionString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClientId" class="control-label"></label>
+                <input asp-for="ClientId" class="form-control" />
+                <span asp-validation-for="ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenantId" class="control-label"></label>
+                <input asp-for="TenantId" class="form-control" />
+                <span asp-validation-for="TenantId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppSecret" class="control-label"></label>
+                <input asp-for="AppSecret" class="form-control" />
+                <span asp-validation-for="AppSecret" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ResourceName" class="control-label"></label>
+                <input asp-for="ResourceName" class="form-control" />
+                <span asp-validation-for="ResourceName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Verify" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+     <div class="col-md-4 border-left">
+        @if (Model != null && !String.IsNullOrEmpty(Model.Status))
+        {
+            if (Model.IsSuccess)
+            {
+                <div class="alert alert-success" role="alert">
+                    @Model.Status
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Model.Status
+                </div>
+            }
+        }
+    </div>
+
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@*<script>
+    $(document).ready(function() {
+        $('select').select2();
+    });
+</script>*@
+
+}
