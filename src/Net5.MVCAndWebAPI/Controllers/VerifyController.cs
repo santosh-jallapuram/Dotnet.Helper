@@ -9,7 +9,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
-
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.Identity.Client;
+using Microsoft.Rest;
+using Microsoft.PowerBI.Api;
+using Microsoft.PowerBI.Api.Models;
 
 namespace Net5.MVCAndWebAPI.Controllers
 {
@@ -49,6 +54,69 @@ namespace Net5.MVCAndWebAPI.Controllers
 
             SetViewBag();
             return View("Database", data);
+        }
+
+        [HttpGet]
+        public IActionResult PowerBI()
+        {
+            return View(new PowerBIModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PowerBI(PowerBIModel data)
+        {
+            List<ValidationResult> errors = new List<ValidationResult>();
+
+            try
+            {
+                ValidatePowerBIConfiguration(errors, data);
+
+                if (!errors.Any())
+                {
+                    IConfidentialClientApplication clientApp = ConfidentialClientApplicationBuilder
+                                                                    .Create(data.ClientId)
+                                                                    .WithClientSecret(data.AppSecret)
+                                                                    .WithAuthority($"{data.Authority}{data.TenantId}")
+                                                                    .Build();
+                    List<string> scopes = new List<string>
+                        {
+                            data.Scope,
+                        };
+
+                    Microsoft.Identity.Client.AuthenticationResult authenticationResult = await clientApp.AcquireTokenForClient(scopes).ExecuteAsync();
+
+                    if (authenticationResult is null)
+                    {
+                        errors.Add(new ValidationResult("Unable to authenticate the Power BI client"));
+                    }
+                    if (!errors.Any())
+                    {
+                        TokenCredentials tokenCredentials = new TokenCredentials(authenticationResult.AccessToken, "Bearer");
+
+                        // 3. Get embedded report info
+                        var client = new PowerBIClient(new Uri(data.APIBaseURL), tokenCredentials);
+
+                        Reports reports = client.Reports.GetReports(Guid.Parse(data.WorkSpaceId));
+
+                        ViewBag.Reports = reports;
+                    }
+                }
+            }
+            catch (HttpOperationException ex)
+            {
+                errors.Add(new ValidationResult(ex.Message));
+            }
+            catch (Exception e)
+            {
+                errors.Add(new ValidationResult(e.Message));
+            }
+
+            errors.ForEach(_ =>
+            {
+                ModelState.AddModelError(string.Empty, _.ErrorMessage);
+            });
+
+            return View(data);
         }
 
         private string ValidateConnectionStringWithPassword(string connection)
@@ -128,6 +196,41 @@ namespace Net5.MVCAndWebAPI.Controllers
 
             ViewBag.AppSettings = new SelectList(appSettings.Distinct(), "Value", "Key");
             ViewBag.ConnectionStrings = new SelectList(connectionStrings.OrderBy(i => i.Value).Distinct(), "Value", "Key");
+        }
+
+        private void ValidatePowerBIConfiguration(ICollection<ValidationResult> errors, PowerBIModel data)
+        {
+            if (string.IsNullOrWhiteSpace(data.ClientId))
+            {
+                errors.Add(new ValidationResult("ClientId_Empty"));
+            }
+            else if (!Guid.TryParse(data.ClientId, out _))
+            {
+                errors.Add(new ValidationResult("ClientId_Not_Valid"));
+            }
+
+            if (string.IsNullOrWhiteSpace(data.WorkSpaceId))
+            {
+                errors.Add(new ValidationResult("WorkspaceId_Empty"));
+            }
+            else if (!Guid.TryParse(data.WorkSpaceId, out _))
+            {
+                errors.Add(new ValidationResult("WorkspaceId_Not_Valid"));
+            }
+
+            if (string.IsNullOrWhiteSpace(data.TenantId))
+            {
+                errors.Add(new ValidationResult("TenantId_Empty"));
+            }
+            else if (!Guid.TryParse(data.TenantId, out _))
+            {
+                errors.Add(new ValidationResult("TenantId_Not_Valid"));
+            }
+
+            if (string.IsNullOrWhiteSpace(data.AppSecret))
+            {
+                errors.Add(new ValidationResult("App_Secret_Empty"));
+            }
         }
     }
 }

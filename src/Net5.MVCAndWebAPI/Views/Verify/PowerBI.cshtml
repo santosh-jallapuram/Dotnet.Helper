@@ -1,0 +1,87 @@
+﻿@model Net5.MVCAndWebAPI.Models.PowerBIModel
+
+@{
+    ViewData["Title"] = "PowerBI";
+}
+
+<h1>PowerBI</h1>
+
+<hr />
+
+<form asp-action="PowerBI" class="row">
+    <div class=" col-12">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Authority" class="control-label"></label>
+            <input asp-for="Authority" class="form-control" />
+            <span asp-validation-for="Authority" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ClientId" class="control-label"></label>
+            <input asp-for="ClientId" class="form-control" />
+            <span asp-validation-for="ClientId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TenantId" class="control-label"></label>
+            <input asp-for="TenantId" class="form-control" />
+            <span asp-validation-for="TenantId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AppSecret" class="control-label"></label>
+            <input asp-for="AppSecret" class="form-control" />
+            <span asp-validation-for="AppSecret" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="APIBaseURL" class="control-label"></label>
+            <input asp-for="APIBaseURL" class="form-control" />
+            <span asp-validation-for="APIBaseURL" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EmbedBaseURL" class="control-label"></label>
+            <input asp-for="EmbedBaseURL" class="form-control" />
+            <span asp-validation-for="EmbedBaseURL" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ResourceUrl" class="control-label"></label>
+            <input asp-for="ResourceUrl" class="form-control" />
+            <span asp-validation-for="ResourceUrl" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Scope" class="control-label"></label>
+            <input asp-for="Scope" class="form-control" />
+            <span asp-validation-for="Scope" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="WorkSpaceId" class="control-label"></label>
+            <input asp-for="WorkSpaceId" class="form-control" />
+            <span asp-validation-for="WorkSpaceId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReportId" class="control-label"></label>
+            <input asp-for="ReportId" class="form-control" />
+            <span asp-validation-for="ReportId" class="text-danger"></span>
+        </div>
+
+
+
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            <input type="submit" value="Get All Reports" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+@if (ViewBag.Reports != null)
+{
+    <partial name="_PowerBIReports" model="ViewBag.Reports.Value" />
+}
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
