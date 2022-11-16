@@ -1,6 +1,6 @@
 ﻿// credits : https://docs.microsoft.com/en-us/aspnet/core/security/ip-safelist
 
-namespace Net5.MVCAndWebAPI
+namespace AppServiceHelper
 {
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;

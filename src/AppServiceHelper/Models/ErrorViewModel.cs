@@ -1,4 +1,4 @@
-namespace Net5.MVCAndWebAPI.Models
+namespace AppServiceHelper.Models
 {
     using System;
 

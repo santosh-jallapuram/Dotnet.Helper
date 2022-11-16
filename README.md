@@ -15,4 +15,4 @@
 3. Token Validator(JWT) against AD.
 4. JWT Parser. 
 5. Copy app setting name/value.
-6. 
+6. Verify App Insights Key by doing a temp event or log.

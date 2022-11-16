@@ -1,11 +1,11 @@
-﻿namespace Net5.MVCAndWebAPI.Controllers
+﻿namespace AppServiceHelper.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
 
-    using Net5.MVCAndWebAPI.Models;
+    using AppServiceHelper.Models;
 
     using System;
     using System.Collections.Generic;
@@ -31,12 +31,12 @@
 
             vm.AppSettings = _config.AsEnumerable()
                 .Where(_ => !_.Key.Contains("ConnectionStrings")) // azure connection strings are considered as app setting.
-                .Select(_ => new Net5.MVCAndWebAPI.Models.KeyValuePair { Key = _.Key, Value = _.Value })
+                .Select(_ => new AppServiceHelper.Models.KeyValuePair { Key = _.Key, Value = _.Value })
                 .OrderBy(_ => _.Key)
                 .ToList();
 
             vm.ConnectionStrings = _config.GetSection("ConnectionStrings").GetChildren()
-                .Select(_ => new Net5.MVCAndWebAPI.Models.KeyValuePair { Key = _.Key, Value = _.Value })
+                .Select(_ => new AppServiceHelper.Models.KeyValuePair { Key = _.Key, Value = _.Value })
                 .OrderBy(_ => _.Key)
                 .ToList();
             ViewBag.AppSettings = new SelectList(vm.AppSettings.OrderBy(i => i.Value).Distinct(), "Key", "Value");

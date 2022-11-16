@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Net5.MVCAndWebAPI</title>
+    <title>@ViewData["Title"] - AppServiceHelper</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Troubleshooter (.Net, MVC & Web API)</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">App Service Helper</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,7 +27,6 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-area="" asp-controller="Verify" asp-action="Database">Database</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Verify" asp-action="PowerBI">Power BI</a>
                                 <a class="dropdown-item" href="#">SMTP</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
@@ -40,13 +39,15 @@
     </header>
     <div class="container-fluid">
         <main role="main" class="pb-3">
+            <p class="text-danger">A helper to debug a server to which you cannot get access. <a href="https://github.com/sj-net/Dotnet.Helper" target="blank">Source code on Github.</a> USE AT YOUR OWN RISK.</p>
+            <p class="text-success">Ensure to whitelist your IP after hosting this on a server.(appSettings key `AdminSafeList`)</p>
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container-fluid">
-            &copy; 2021 - Net5.MVCAndWebAPI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - App Service Helper.
         </div>
     </footer>
     <script src="~/lib/jquery/jquery.min.js"></script>

@@ -1,4 +1,4 @@
-namespace Net5.MVCAndWebAPI
+namespace AppServiceHelper
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
